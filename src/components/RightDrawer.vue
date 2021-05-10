@@ -5,9 +5,9 @@
         <q-icon name="search" size="sm"/>
       </template>
     </q-input>
-<pre>
-  {{currentUser[0].user_liked_posts}}
-</pre>
+<!-- <pre>
+  {{currentUser}}
+</pre> -->
 <!-- POSTS here -->
     <q-toolbar-title class="text-weight-bold q-mt-md">
       {{ $i18n.t('Your recent posts') }}
@@ -82,7 +82,7 @@ export default {
         .whereId(this.authenticatedUser.$id)
         .with('posts')
         .with('user_liked_posts')
-        // .with('likedPosts')
+        // .with('LikedPosts')
         .get()
     }
   }

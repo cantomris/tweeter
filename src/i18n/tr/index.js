@@ -17,6 +17,7 @@ export default {
   'Sign Up': 'Üye ol',
   'E-Mail': 'E-Posta',
   Password: 'Şifre',
-  Name: 'Adınız'
+  Name: 'Adınız',
+  'Your recent posts': 'Son gönderileriniz'
 
 }

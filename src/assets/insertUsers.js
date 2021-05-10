@@ -5,7 +5,6 @@ export default async function insertUsers () {
     data:
     [
       {
-        id: 1,
         first_name: 'Can',
         last_name: 'Tomris',
         email: 'cantomris@local.dev',
@@ -13,13 +12,24 @@ export default async function insertUsers () {
         avatar: 'https://i1.sndcdn.com/avatars-000038565479-7xzn0k-t500x500.jpg',
         posts: [
           {
+            id: 221122,
             title: 'Awesome',
             time_stamp: 1619222519821,
             body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos ex ratione enim quo illo perspiciatis sunt vitae delectus voluptates error, aliquid, placeat alias nam aliquam sed recusandae deserunt.',
             image: {
               id: 12412,
               url: 'https://miro.medium.com/max/1200/1*mk1-6aYaf_Bes1E3Imhc0A.jpeg'
-            }
+            },
+            comments: [
+              {
+                id: 654321,
+                body: 'This is first comment'
+              },
+              {
+                id: 654322,
+                body: 'This is second comment'
+              }
+            ]
           },
           {
             title: 'Extra ordinary',
@@ -30,7 +40,6 @@ export default async function insertUsers () {
       },
 
       {
-        id: 2,
         first_name: 'John',
         last_name: 'Tomers',
         email: 'tomerskiller@local.dev',
@@ -47,7 +56,6 @@ export default async function insertUsers () {
       },
 
       {
-        id: 3,
         first_name: 'Osman',
         last_name: 'Lahmacuncu',
         email: 'lafmacuncu@local.dev',

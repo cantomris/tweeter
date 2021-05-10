@@ -10,7 +10,7 @@
           counter
           maxlength="280">
           <template v-slot:before>
-            <q-avatar size="lg">
+            <q-avatar class="user_avatar" size="lg">
               <img :src="authenticatedUser.avatar">
             </q-avatar>
           </template>
@@ -33,7 +33,7 @@
 
     <q-list
       v-for="post in posts"
-      :key="post.$id"
+      :key="post.time_stamp"
       separator>
 
       <Tweet :post="post"/>
@@ -71,7 +71,6 @@ export default {
       Post.insert({
         data: {
           user: this.authenticatedUser,
-          title: 'smthng',
           body: this.newTweet,
           time_stamp: Date.now()
         }
@@ -88,4 +87,6 @@ export default {
   border-top: 1px solid
   border-bottom: 1px solid
   border-color: $grey-4
+.user_avatar img
+  object-fit: cover
 </style>

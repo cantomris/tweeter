@@ -43,7 +43,7 @@
 
     <RightDrawer/>
 
-    <comment-box/>
+    <!-- <comment-box/> -->
 
     <q-page-container>
       <router-view />
@@ -59,13 +59,13 @@ import LeftDrawer from 'src/components/LeftDrawer'
 import LoginModal from 'src/components/LoginModal'
 import Kwarg from 'src/store/classes/Kwarg'
 import User from 'src/store/classes/User'
-import CommentBox from 'src/components/CommentBox.vue'
+// import CommentBox from 'src/components/CommentBox.vue'
 export default {
   components: {
     RightDrawer,
     LeftDrawer,
-    LoginModal,
-    CommentBox
+    LoginModal
+    // CommentBox
   },
   data () {
     return {

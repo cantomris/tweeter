@@ -2,15 +2,19 @@ import { Model } from '@vuex-orm/core'
 import Image from './Image'
 import User from './User'
 import { formatDistance } from 'date-fns'
-import UserLikedPosts from './UserLikedPost'
 import Comment from './Comment'
+import { tr } from 'date-fns/locale'
+
 // import Kwarg from './Kwarg'
 
 export default class Post extends Model {
   static entity = 'posts'
 
   get relativeTime () {
-    return formatDistance(this.time_stamp, Date.now())
+    // const locales = { en, tr }
+    return formatDistance(this.time_stamp, Date.now(), {
+      locale: tr
+    })
   }
   // static mutators () {
   //   return {
@@ -43,9 +47,8 @@ export default class Post extends Model {
       liked: this.attr(null),
       // relations
       user: this.belongsTo(User, 'user_id'),
-      comments: this.morphMany(Comment, 'comment_id', 'comment_type'),
-      image: this.morphOne(Image, 'imageable_id', 'imageable_type'),
-      user_liked_posts: this.hasMany(UserLikedPosts, 'post_id')
+      comments: this.hasMany(Comment, 'post_id'),
+      image: this.morphOne(Image, 'imageable_id', 'imageable_type')
     }
   }
 }

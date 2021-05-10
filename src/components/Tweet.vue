@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- <CommentBox :post="post"/> -->
     <transition
       appear
       enter-active-class="animated fadeIn slower"
@@ -42,7 +43,7 @@
               flat round
               color="grey"
               size="sm"
-              icon="far fa-comment" />
+              icon="far fa-comment" > <p>{{ post.comments.length }}</p> </q-btn>
             <q-btn
               flat round
               color="grey"
@@ -60,29 +61,77 @@
               size="sm"
               :icon="post.liked ? 'fas fa-heart' : 'far fa-heart'" />
             <q-btn
-              @click="getIsUser ? deleteTweet(post.id) : null"
+              @click="isPostBelongsToCurrentUser ? deleteTweet(post.id) : null"
               flat
               round
               color="grey"
               size="sm"
-              :icon="getIsUser ? 'far fa-trash-alt' : 'fas fa-upload'" />
+              :icon="isPostBelongsToCurrentUser ? 'far fa-trash-alt' : 'fas fa-upload'" />
           </div>
         </q-item-section>
 
       </q-item>
     </transition>
+    <div class="comments">
+      <q-item class="q-py-sm q-px-lg" v-for="comment in post.comments" :key="comment.id">
+        <q-item-section avatar top>
+            <q-avatar class="user_avatar" size="md">
+              <img :src="comment.user.avatar">
+            </q-avatar>
+          </q-item-section>
+          <q-item-label class="text-subtitle1">
+            <strong>{{ comment.user.first_name }}</strong>
+            <span class="text-grey-7"> {{ comment.user.nickName }}
+              <br> {{comment.body}}
+            </span>
+          </q-item-label>
+
+      </q-item>
+      <div class="row" v-if="authenticatedUser">
+        <div class="col">
+          <q-input
+            autogrow
+            bottom-slots
+            v-model="newComment"
+            :placeholder="$i18n.t('Whats happening?')">
+            <template v-slot:before>
+              <q-avatar class="user_avatar" size="md">
+                <img :src="authenticatedUser.avatar">
+              </q-avatar>
+            </template>
+          </q-input>
+        </div>
+        <div class="col col-shrink q-mb-lg">
+          <q-btn
+            @click="submitComment"
+            :disable="!newComment"
+            no-caps
+            rounded
+            color="primary"
+            :label="$i18n.t('Send')"/>
+        </div>
+      </div>
+    </div>
     <q-separator size="1px" color="grey-4"/>
   </div>
 </template>
 
 <script>
-import { formatDistance } from 'date-fns'
 import Post from 'src/store/classes/Post'
 import Kwarg from 'src/store/classes/Kwarg'
-import UserLikedPost from 'src/store/classes/UserLikedPost'
+import Comment from 'src/store/classes/Comment'
+// import CommentBox from 'src/components/CommentBox'
 
 export default {
   props: ['post'],
+  // components: {
+  //   CommentBox
+  // },
+  data () {
+    return {
+      newComment: ''
+    }
+  },
 
   methods: {
     deleteTweet (id) {
@@ -90,26 +139,33 @@ export default {
     },
     likeTweet (id) {
       // Post.likePost(id)
-      const likedPost = Post.find(id)
-      UserLikedPost.insert({ data: likedPost })
+      const LikedPost = Post.find(id)
+      LikedPost.insert({ data: LikedPost })
+      console.log(this.$i18n.locale)
     },
     openCommentModal () {
       Kwarg.$toggle('isCommentModalOpen')
+    },
+    submitComment () {
+      console.log(this.newComment, this.post.id)
+      Comment.insert({
+        data: {
+          user: this.authenticatedUser,
+          post_id: this.post.id,
+          body: this.newComment
+        }
+      })
+      this.newComment = ''
     }
   },
   computed: {
-    getIsUser () {
+    isPostBelongsToCurrentUser () {
       return this.authenticatedUser && this.authenticatedUser.id === this.post.user.id ? true : null
     },
     isTweetLiked: {
       get () {
         return Kwarg.$get('isTweetLiked', false)
       }
-    }
-  },
-  filters: {
-    relativeDate (value) {
-      return formatDistance(value, new Date())
     }
   }
 }
@@ -130,4 +186,9 @@ export default {
   width: 200px
   height: 200px
   border-radius: 14px
+.comments
+  border: 1px solid lightgrey
+  border-radius: 14px
+  padding: 10px
+  margin: 10px
 </style>

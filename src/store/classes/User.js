@@ -1,9 +1,9 @@
 import { Model } from '@vuex-orm/core'
 import Image from './Image'
 import Post from './Post'
+// import LikedPost from './LikedPost'
 import Kwarg from './Kwarg'
 import bus from 'src/bus/index'
-import UserLikedPost from './UserLikedPost'
 import Comment from './Comment'
 
 export default class User extends Model {
@@ -12,18 +12,6 @@ export default class User extends Model {
 
   get nickName () {
     return `@${this.first_name}${this.last_name}`.toLowerCase()
-  }
-  // get nickName () {
-  //   const smth = this.email.split('@', 1)
-  //   return JSON.stringify(smth)
-  // }
-
-  static mutators (nickName) {
-    return {
-      nick_name (value) {
-        return nickName
-      }
-    }
   }
 
   static fields () {
@@ -34,12 +22,11 @@ export default class User extends Model {
       avatar: this.attr(null),
       email: this.attr(null),
       password: this.attr(null),
+      post_id: this.attr([]),
       // relations
-      comments: this.hasMany(Comment, 'user_id'),
       posts: this.hasMany(Post, 'user_id'),
-      image: this.morphOne(Image, 'imageable_id', 'imageable_type'),
-      user_liked_posts: this.hasMany(UserLikedPost, 'user_id'),
-      likedPosts: this.hasManyThrough(Post, UserLikedPost, 'user_id', 'post_id')
+      comments: this.hasMany(Comment, 'user_id'),
+      image: this.morphOne(Image, 'imageable_id', 'imageable_type')
     }
   }
 

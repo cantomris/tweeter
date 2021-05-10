@@ -2,8 +2,8 @@ import { Model } from '@vuex-orm/core'
 import Post from './Post'
 import User from './User'
 
-export default class UserLikedPost extends Model {
-  static entity = 'user_liked_posts'
+export default class LikedPost extends Model {
+  static entity = 'likedposts'
 
   static fields () {
     return {
