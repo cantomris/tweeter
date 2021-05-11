@@ -8,6 +8,7 @@ export default class LikedPost extends Model {
   static fields () {
     return {
       id: this.uid(),
+      likes: this.attr([]),
       user_id: this.uid(),
       post_id: this.uid(),
       user: this.belongsTo(User, 'user_id'),

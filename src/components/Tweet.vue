@@ -57,9 +57,9 @@
             <q-btn
               @click="likeTweet(post.id)"
               flat round
-              :color="post.liked ? 'light-blue' : 'grey'"
+              :color="post.likes ? 'light-blue' : 'grey'"
               size="sm"
-              :icon="post.liked ? 'fas fa-heart' : 'far fa-heart'" />
+              :icon="post.likes ? 'fas fa-heart' : 'far fa-heart'" /> <!-- <p>{{ post.likes.length }}</p> </q-btn> -->
             <q-btn
               @click="isPostBelongsToCurrentUser ? deleteTweet(post.id) : null"
               flat
@@ -72,7 +72,7 @@
 
       </q-item>
     </transition>
-    <div class="comments">
+    <div class="comments" v-if="authenticatedUser">
       <q-item class="q-py-sm q-px-lg" v-for="comment in post.comments" :key="comment.id">
         <q-item-section avatar top>
             <q-avatar class="user_avatar" size="md">
@@ -87,13 +87,12 @@
           </q-item-label>
 
       </q-item>
-      <div class="row" v-if="authenticatedUser">
+      <div class="row">
         <div class="col">
           <q-input
             autogrow
             bottom-slots
-            v-model="newComment"
-            :placeholder="$i18n.t('Whats happening?')">
+            v-model="newComment">
             <template v-slot:before>
               <q-avatar class="user_avatar" size="md">
                 <img :src="authenticatedUser.avatar">
@@ -101,7 +100,7 @@
             </template>
           </q-input>
         </div>
-        <div class="col col-shrink q-mb-lg">
+        <div class="col col-shrink q-mt-md">
           <q-btn
             @click="submitComment"
             :disable="!newComment"
@@ -187,8 +186,8 @@ export default {
   height: 200px
   border-radius: 14px
 .comments
-  border: 1px solid lightgrey
+  border: 1px solid rgba(0, 0, 0, 0.14)
   border-radius: 14px
-  padding: 10px
+  padding: 5px 10px
   margin: 10px
 </style>
